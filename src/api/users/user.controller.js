@@ -1,7 +1,5 @@
-const User = require("./user.models");
+const User = require("./user.models.js");
 const bcrypt = require("bcrypt");
-
-
 const {generarSing} = require ("../../utils/jwt.js");
 
 const signUp = async (req,res,next)=>{
@@ -11,7 +9,7 @@ const signUp = async (req,res,next)=>{
         }
         const newUser = new User(req.body);
         await newUser.save();
-        return res.status(201).json(newuser);
+        return res.status(201).json(newUser);
     } catch (error) {
         return next(error);
     }
