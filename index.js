@@ -1,11 +1,13 @@
 const express = require("express");
 require("dotenv").config();
-const cors =require("cors");
+const cors = require("cors");
 
 const PORT = process.env.PORT;
 
 const server = express();
-server.use(cors());
+server.use(cors({
+    origin: '*'
+}));
 
 const routerOferta = require("./src/api/ofertas/oferta.routes");
 const routerEmpresas = require("./src/api/empresas/empresa.routes");
@@ -30,8 +32,6 @@ cloudinary.config({
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET,
 })
-
-
 
 server.use((err,req,res,next)=>{
     return res.status(res.status(err.status||500).json(err.message||"Error inesperado"))
