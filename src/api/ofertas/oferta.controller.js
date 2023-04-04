@@ -1,5 +1,5 @@
+const { deleteFile } = require("../../middlewares/delete");
 const Oferta = require("./oferta.models");
-
 
 const getAllOfertas = async (req,res,next)=>{
     try {
@@ -46,4 +46,32 @@ const createOferta = async(req,res, next)=>{
     }
 }
 
-module.exports = { getAllOfertas, createOferta, getOfertaById, getOfertaByName};
+const updateOferta = async (req,res,next)=>{
+    try {
+        const {id}= req.params;
+        if(req.file){
+            const oldOferta = await Oferta.findById(id);
+            if(oldOferta){
+                deleteFile(oldOferta.portada)
+            }
+            req.body.portada= req.file.path;
+        }
+
+        const ofertaUpdated = await Oferta.findByIdAndUpdate(id, req.body,{new:true});
+        return res.status(200).json(ofertaUpdated);
+    } catch (error) {
+        return next(error);
+    }
+}
+
+const deleteOferta = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const ofertaDeleted = await Oferta.findByIdAndDelete(id);
+        return res.status(200).json(ofertaDeleted);
+    } catch (error) {
+        return next(error)
+    }
+}
+
+module.exports = { getAllOfertas, createOferta, getOfertaByName, getOfertaById, deleteOferta, updateOferta};

@@ -19,9 +19,9 @@ const cloudinary = require("cloudinary").v2;
 server.use(express.json());
 server.use(express.urlencoded({extended:true}));
 
-server.use("/", routerEmpresas);
-server.use("/", routerOferta);
-server.use("/", userRouter);
+server.use("/empresas", routerEmpresas);
+server.use("/ofertas", routerOferta);
+server.use("/users", userRouter);
 
 const db = require("./src/utils/db.js");
 db.connectDB();
