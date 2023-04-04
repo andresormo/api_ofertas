@@ -10,7 +10,7 @@ const getAllOfertas = async (req,res,next)=>{
     }
 }
 
-const getOfertaById = async ()=>{
+const getOfertaById = async (req,res,next)=>{
     try {
         const {id} = req.params;
         const oferta = await Oferta.findById(id).populate("empresa");
