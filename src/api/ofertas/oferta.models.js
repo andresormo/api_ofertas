@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const ofertaSchema = new mongoose.Schema(
     {
-        empresa:[{type:mongoose.Types.ObjectId, ref:"empresas"}],
+        empresa:[{type:mongoose.Types.ObjectId, ref:"users"}],
         puesto:{type:String, required:true},
         salario:{type:String, default:"No especifica"},
         descripcion:{type:String},

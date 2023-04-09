@@ -15,10 +15,37 @@ const signUp = async (req,res,next)=>{
     }
 }
 
+const getAllUser = async(req, res, next)=>{
+    try {
+        const user = await User.find();
+        return res.json(user);
+    } catch (error) {
+        return next(error)
+    }
+}
+
+const getUserById = async (req, res, next)=>{
+    try {
+        const {id}=req.params;
+        const user = await User.findById(id);
+        if(!user){
+            return res.json("Empresa no encontrada")
+        }
+        return res.json(user);
+    } catch (error) {
+        return next(error);
+    }
+}
+
 const modifyUser = async (req,res,next)=>{
     try {
         const {id} = req.params;
         const userToUpdate = new User(req.body);
+        if (req.user.rol !== 'admin') {
+            if(req.user.rol ==='company'){
+                req.body.rol = 'company';
+            } else{req.body.rol = 'user';}
+        }
 
         userToUpdate._id = id;
 
@@ -51,4 +78,4 @@ const login = async (req, res, next) => {
     }
 }
 
-module.exports = { signUp, modifyUser, login }
+module.exports = { signUp, modifyUser, login, getAllUser, getUserById }
