@@ -50,7 +50,7 @@ const isCompanyAuth = async (req, res, next) => {
         const validToken = verifyJwt(parsedToken);
         const userLoged = await User.findById(validToken.id);
 
-        if (userLoged.empresa !== req.user.id) {
+        if (userLoged.user !== req.user.id) {
             return res.status(403).json("Acceso denegado, eres otra empresa");
         }
         next();
