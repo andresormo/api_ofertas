@@ -48,12 +48,14 @@ const isCompanyAuth = async (req, res, next) => {
         }
         const parsedToken = token.replace("Bearer ", "");
         const validToken = verifyJwt(parsedToken);
-        const userLoged = await User.findById(validToken.id);
-
-        if (userLoged.user !== req.user.id) {
+        // const userLoged = await User.findById(validToken.id);
+        if (validToken.id !== req.user.id) {
             return res.status(403).json("Acceso denegado, eres otra empresa");
         }
-        next();
+        else{
+            next();
+        }
+        
     } catch (error) {
         return res.json(error)
     }
