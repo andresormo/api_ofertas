@@ -1,3 +1,4 @@
+const Oferta = require("../api/ofertas/oferta.models");
 const User = require("../api/users/user.models");
 const { verifyJwt } = require("../utils/jwt");
 
@@ -42,24 +43,26 @@ const isCompany = async (req, res, next)=>{
 
 const isCompanyAuth = async (req, res, next) => {
     try {
-        const token = req.headers.authorization;
-        if (!token) {
-            return res.json("No estás autorizado");
-        }
-        const parsedToken = token.replace("Bearer ", "");
-        const validToken = verifyJwt(parsedToken);
-        // const userLoged = await User.findById(validToken.id);
-        if (validToken.id !== req.user.id) {
-            return res.status(403).json("Acceso denegado, eres otra empresa");
-        }
-        else{
-            next();
-        }
-        
+      const token = req.headers.authorization;
+      if (!token) {
+        return res.status(401).json("No estás autorizado" );
+      }
+      const parsedToken = token.replace("Bearer ", "");
+      const validToken = verifyJwt(parsedToken);
+      const oferta = await Oferta.findById(req.params.id);
+      
+      if (!oferta) {
+        return res.status(404).json( "La oferta no existe");
+      }
+      if (String(oferta.empresa) !== validToken.id) {
+        return res.status(403).json("Acceso denegado, no eres el creador de esta oferta" );
+      }
+      next();
     } catch (error) {
-        return res.json(error)
+      return res.json(error);
     }
-}
+  }
+
 
 const isAdmin = async (req, res, next) => {
     try {

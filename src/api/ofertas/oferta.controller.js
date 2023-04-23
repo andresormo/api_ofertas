@@ -54,7 +54,7 @@ const updateOferta = async (req,res,next)=>{
             if(oldOferta){
                 deleteFile(oldOferta.portada)
             }
-            req.body.portada= req.file.path;
+            req.body.portada = req.file.path;
         }
 
         const ofertaUpdated = await Oferta.findByIdAndUpdate(id, req.body,{new:true});

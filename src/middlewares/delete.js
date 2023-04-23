@@ -1,9 +1,9 @@
 const cloudinary = require("cloudinary").v2;
 
-const deleteFile = (imgUrl)=>{
-    const imgSplited = imgUrl.split("/");
-    const nameSplited = imgSplited.at(-1).split(".");
-    const folderSplited = imgSplited.at(-2);
+const deleteFile = (portada)=>{
+    const portadaSplited = portada.split("/");
+    const nameSplited = portadaSplited.at(-1).split(".");
+    const folderSplited = portadaSplited.at(-2);
     const public_id= `${folderSplited}/${nameSplited[0]}`;
 
     cloudinary.uploader.destroy(public_id, ()=>{
