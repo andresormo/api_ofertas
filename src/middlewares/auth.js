@@ -50,10 +50,6 @@ const isCompanyAuth = async (req, res, next) => {
       const parsedToken = token.replace("Bearer ", "");
       const validToken = verifyJwt(parsedToken);
       const oferta = await Oferta.findById(req.params.id);
-      
-      if (!oferta) {
-        return res.status(404).json( "La oferta no existe");
-      }
       if (String(oferta.empresa) !== validToken.id) {
         return res.status(403).json("Acceso denegado, no eres el creador de esta oferta" );
       }
